@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human System Optimization: An Interactive Guide</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #F8F9FA;
+      color: #25354F;
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 300px;
+      max-height: 400px;
+    }
+
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 350px;
+      }
+    }
+
+    .flow-arrow {
+      font-size: 2rem;
+      color: #FFBC0A;
+      line-height: 1;
+    }
+
+    .kpi-card {
+      background-color: white;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+
+    .kpi-icon {
+      font-size: 3rem;
+      line-height: 1;
+    }
+  </style>
+</head>
+
+<body class="antialiased">
+
+  <div class="container mx-auto p-4 md:p-8">
+
+    <header class="text-center mb-12">
+      <h1 class="text-4xl md:text-6xl font-black text-[#00A6ED] tracking-tight">Human System Optimization</h1>
+      <p class="mt-4 text-lg md:text-xl text-[#25354F]">A Science-Backed Guide to Peak Performance & Health</p>
+    </header>
+
+    <section id="pillars" class="mb-16">
+      <h2 class="text-3xl font-bold text-center mb-8">The Four Foundational Pillars</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="kpi-card">
+          <div class="kpi-icon mb-3">🛌</div>
+          <h3 class="text-xl font-bold">Quality Sleep</h3>
+          <p class="text-sm mt-1">The most important prerequisite for physiological and mental health.</p>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon mb-3">🚭</div>
+          <h3 class="text-xl font-bold">No Smoking</h3>
+          <p class="text-sm mt-1">Damages gene expression and significantly accelerates aging.</p>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon mb-3">🏃</div>
+          <h3 class="text-xl font-bold">Daily Exercise</h3>
+          <p class="text-sm mt-1">Improves cardiopulmonary function, brain health, and mood.</p>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon mb-3">🍬</div>
+          <h3 class="text-xl font-bold">Reduce Sugar</h3>
+          <p class="text-sm mt-1">High sugar intake accelerates aging and harms metabolic health.</p>
+        </div>
+      </div>
+    </section>
+
+    <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold mb-4 text-center">Master Your Clock: The Science of Sleep</h3>
+        <p class="text-center mb-6 max-w-3xl mx-auto">Your body's internal clock, or circadian rhythm, is the master regulator of your sleep-wake cycle. The most powerful factor influencing this clock is light. Properly timing your light exposure can dramatically improve sleep quality, daytime energy, and overall health.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">The Daily Light Cycle Effect</h4>
+            <div class="flex flex-col items-center space-y-2">
+              <div class="text-center p-3 bg-blue-50 rounded-lg w-full"><strong>☀️ Morning Sun:</strong> Cortisol rises, waking you up.</div>
+              <div class="flow-arrow">⬇️</div>
+              <div class="text-center p-3 bg-blue-50 rounded-lg w-full"><strong>⏰ Timer Set:</strong> A countdown begins for melatonin release.</div>
+              <div class="flow-arrow">⬇️</div>
+              <div class="text-center p-3 bg-gray-800 text-white rounded-lg w-full"><strong>🌙 Evening:</strong> Melatonin is released, preparing you for sleep.</div>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">Morning Light Source Effectiveness</h4>
+            <div class="chart-container">
+              <canvas id="lightSourceChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold mb-4 text-center">Fuel Your System: Diet & Fasting</h3>
+        <p class="text-center mb-6 max-w-3xl mx-auto">Research shows that <strong>when</strong> you eat is as important as <strong>what</strong> you eat. Intermittent fasting, combined with a healthy diet, can significantly improve metabolic health, promote cellular repair, and support a healthy gut microbiome.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">The 8-Hour Eating Window</h4>
+            <div class="chart-container">
+              <canvas id="fastingChart"></canvas>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">Impact on Gut Microbiota Diversity</h4>
+            <div class="chart-container">
+              <canvas id="gutHealthChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold mb-4 text-center">Engineer Your Drive: Dopamine & Motivation</h3>
+        <p class="text-center mb-6 max-w-3xl mx-auto">Dopamine is the molecule of motivation. Understanding how it works allows you to harness its power for sustained drive and avoid burnout. The key is to find reward in the effort itself, not just the outcome.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">The Dopamine Peak & Trough</h4>
+            <div class="chart-container">
+              <canvas id="dopamineCycleChart"></canvas>
+            </div>
+          </div>
+          <div>
+            <h4 class="text-lg font-semibold text-center mb-2">Relative Dopamine Increase from Stimuli</h4>
+            <div class="chart-container">
+              <canvas id="dopamineSourcesChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8">
+          <h4 class="text-lg font-semibold text-center mb-4">The Growth Mindset Loop</h4>
+          <div class="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-center">
+            <div class="p-3 bg-blue-50 rounded-lg">💪 Effort</div>
+            <div class="flow-arrow transform md:rotate-0 rotate-90">➡️</div>
+            <div class="p-3 bg-yellow-50 rounded-lg">🧠 Self-Suggestion</div>
+            <div class="flow-arrow transform md:rotate-0 rotate-90">➡️</div>
+            <div class="p-3 bg-red-50 rounded-lg">😄 Dopamine Release</div>
+            <div class="flow-arrow transform md:rotate-0 rotate-90">➡️</div>
+            <div class="p-3 bg-green-50 rounded-lg">🚀 Easier to Persist</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold mb-4 text-center">Upgrade Your Brain: Learning & Focus</h3>
+        <p class="text-center mb-6">Learning is the process of rewiring your brain (neuroplasticity). This process is triggered by focus and, crucially, by making mistakes. Frustration from errors signals the brain to become adaptable and learn.</p>
+        <div class="text-center p-6 bg-yellow-100 rounded-lg">
+          <p class="text-5xl font-black text-yellow-600">“</p>
+          <p class="text-2xl font-semibold -mt-8">Making mistakes is a prerequisite for learning.</p>
+        </div>
+        <h4 class="text-lg font-semibold text-center mt-6 mb-4">The Focus Toolkit</h4>
+        <ul class="space-y-3">
+          <li class="flex items-start"><span class="text-2xl mr-3">💨</span>
+            <div><strong>Physiological Sigh:</strong> Two inhales, one long exhale to quickly calm stress.</div>
+          </li>
+          <li class="flex items-start"><span class="text-2xl mr-3">💻</span>
+            <div><strong>Limit Field of Vision:</strong> Use "focus modes" to remove distractions.</div>
+          </li>
+          <li class="flex items-start"><span class="text-2xl mr-3">👀</span>
+            <div><strong>Upward Gaze:</strong> Keep monitors above nose level to maintain alertness.</div>
+          </li>
+          <li class="flex items-start"><span class="text-2xl mr-3">🐟</span>
+            <div><strong>Omega-3 EPA:</strong> A key raw material for nerve cells, aids focus and mood.</div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <h3 class="text-2xl font-bold mb-4 text-center">The Longevity Equation</h3>
+        <p class="text-center mb-6">Aging is now considered a "disease" that can be treated. It's largely a result of the loss of epigenetic information—the instructions that tell your genes what to do. You can influence this process.</p>
+        <h4 class="text-lg font-semibold text-center mb-2">Primary Factors of Aging</h4>
+        <div class="chart-container h-64 sm:h-auto">
+          <canvas id="agingFactorsChart"></canvas>
+        </div>
+        <h4 class="text-lg font-semibold text-center mt-6 mb-4">Key Anti-Aging Practices</h4>
+        <ul class="space-y-3">
+          <li class="flex items-start"><span class="text-2xl mr-3">🍽️</span>
+            <div><strong>Fasting & Diet:</strong> Plant-based diet and intermittent fasting activate longevity genes.</div>
+          </li>
+          <li class="flex items-start"><span class="text-2xl mr-3">🏋️</span>
+            <div><strong>Consistent Exercise:</strong> 150-180 mins of weekly aerobic exercise plus strength training.</div>
+          </li>
+        </ul>
+      </div>
+    </main>
+
+    <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+      <p class="text-sm text-gray-500">This infographic is based on the article "Human System Optimization" and the work of scientists like Andrew Huberman. It is for informational purposes only.</p>
+      <p class="text-sm text-gray-500 mt-2">Always consult with a physician or qualified professional before making significant health changes.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    const vibrantPalette = {
+      blue: '#00A6ED',
+      yellow: '#FFBC0A',
+      red: '#F33A4E',
+      darkBlue: '#25354F',
+      white: '#FFFFFF',
+      lightBlue: 'rgba(0, 166, 237, 0.2)',
+      lightYellow: 'rgba(255, 188, 10, 0.2)',
+      lightRed: 'rgba(243, 58, 78, 0.2)'
+    };
+    const chartDefaultOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: vibrantPalette.darkBlue,
+            font: {
+              family: 'Inter'
+            }
+          }
+        },
+        tooltip: {
+          enabled: true,
+          backgroundColor: vibrantPalette.darkBlue,
+          titleFont: {
+            family: 'Inter',
+            weight: 'bold',
+            size: 14
+          },
+          bodyFont: {
+            family: 'Inter',
+            size: 12
+          },
+          callbacks: {
+            title: function(tooltipItems) {
+              const item = tooltipItems[0];
+              let label = item.chart.data.labels[item.dataIndex];
+              if (Array.isArray(label)) {
+                return label.join(' ');
+              } else {
+                return label;
+              }
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: '#E5E7EB'
+          },
+          ticks: {
+            color: vibrantPalette.darkBlue,
+            font: {
+              family: 'Inter'
+            }
+          }
+        },
+        x: {
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: vibrantPalette.darkBlue,
+            font: {
+              family: 'Inter'
+            }
+          }
+        }
+      }
+    };
+
+    function wrapLabel(str, maxWidth) {
+      if (str.length <= maxWidth) return str;
+      const words = str.split(' ');
+      let lines = [];
+      let currentLine = '';
+      for (const word of words) {
+        if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+          lines.push(currentLine);
+          currentLine = word;
+        } else {
+          currentLine = (currentLine + ' ' + word).trim();
+        }
+      }
+      if (currentLine.length > 0) lines.push(currentLine);
+      return lines;
+    }
+    const lightSourceCtx = document.getElementById('lightSourceChart').getContext('2d');
+    new Chart(lightSourceCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Outdoor Sunlight', wrapLabel('Through a Window', 16), wrapLabel('Standard Artificial Light', 16)],
+        datasets: [{
+          label: 'Relative Effectiveness (Log Scale)',
+          data: [100, 2, 0.2],
+          backgroundColor: [vibrantPalette.yellow, vibrantPalette.lightBlue, vibrantPalette.lightRed],
+          borderColor: [vibrantPalette.yellow, vibrantPalette.blue, vibrantPalette.red],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        scales: {
+          y: {
+            type: 'logarithmic',
+            min: 0.1
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: chartDefaultOptions.plugins.tooltip
+        }
+      }
+    });
+    const fastingCtx = document.getElementById('fastingChart').getContext('2d');
+    new Chart(fastingCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['16-Hour Fasting State', '8-Hour Eating Window'],
+        datasets: [{
+          label: 'Daily Cycle',
+          data: [16, 8],
+          backgroundColor: [vibrantPalette.blue, vibrantPalette.yellow],
+          borderColor: vibrantPalette.white,
+          borderWidth: 4,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        cutout: '60%',
+        scales: {
+          y: {
+            display: false
+          },
+          x: {
+            display: false
+          }
+        }
+      }
+    });
+    const gutHealthCtx = document.getElementById('gutHealthChart').getContext('2d');
+    new Chart(gutHealthCtx, {
+      type: 'bar',
+      data: {
+        labels: [wrapLabel('High-Fiber Foods', 16), wrapLabel('Fermented Foods', 16)],
+        datasets: [{
+          label: 'Increase in Microbiota Diversity',
+          data: [15, 75],
+          backgroundColor: [vibrantPalette.lightBlue, vibrantPalette.blue],
+          borderColor: [vibrantPalette.blue, vibrantPalette.blue],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: chartDefaultOptions.plugins.tooltip
+        }
+      }
+    });
+    const dopamineCycleCtx = document.getElementById('dopamineCycleChart').getContext('2d');
+    new Chart(dopamineCycleCtx, {
+      type: 'line',
+      data: {
+        labels: ['Baseline', 'Stimulus', 'Peak', 'After', 'Trough', 'Recovery'],
+        datasets: [{
+          label: 'Dopamine Level',
+          data: [100, 105, 200, 90, 70, 100],
+          fill: true,
+          borderColor: vibrantPalette.red,
+          backgroundColor: vibrantPalette.lightRed,
+          tension: 0.4,
+          pointBackgroundColor: vibrantPalette.red
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: chartDefaultOptions.plugins.tooltip
+        }
+      }
+    });
+    const dopamineSourcesCtx = document.getElementById('dopamineSourcesChart').getContext('2d');
+    new Chart(dopamineSourcesCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Chocolate', 'Sex', 'Nicotine', 'Exercise (for some)', 'Cocaine', 'Amphetamine'],
+        datasets: [{
+          label: 'Times Baseline Level',
+          data: [1.5, 2, 2.5, 2, 2.5, 10],
+          backgroundColor: [vibrantPalette.lightBlue, vibrantPalette.lightBlue, vibrantPalette.lightYellow, vibrantPalette.lightBlue, vibrantPalette.lightYellow, vibrantPalette.lightRed],
+          borderColor: [vibrantPalette.blue, vibrantPalette.blue, vibrantPalette.yellow, vibrantPalette.blue, vibrantPalette.yellow, vibrantPalette.red],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: chartDefaultOptions.plugins.tooltip
+        },
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            ...chartDefaultOptions.scales.y
+          }
+        }
+      }
+    });
+    const agingFactorsCtx = document.getElementById('agingFactorsChart').getContext('2d');
+    new Chart(agingFactorsCtx, {
+      type: 'pie',
+      data: {
+        labels: [wrapLabel('Epigenome Information Loss (Controllable)', 16), wrapLabel('DNA Damage', 16)],
+        datasets: [{
+          label: 'Factors of Aging',
+          data: [80, 20],
+          backgroundColor: [vibrantPalette.blue, vibrantPalette.red],
+          borderColor: vibrantPalette.white,
+          borderWidth: 4,
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        ...chartDefaultOptions,
+        scales: {
+          y: {
+            display: false
+          },
+          x: {
+            display: false
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
